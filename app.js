@@ -6,10 +6,6 @@ var express = require('express');
 var request = require('request');
 var path = require('path');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.get('/main', function(req, res){
