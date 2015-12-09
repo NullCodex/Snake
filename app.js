@@ -15,7 +15,7 @@ app.use(cookieParser());
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
-app.get('/main', function(req, res){
+app.get('/', function(req, res){
 
   res.sendFile(path.join(__dirname, 'views', 'main.html'));
 });
