@@ -8,7 +8,7 @@ exports.config = {
   /**
    * Array of application names.
    */
-  app_name: ['fierce-castle-9035'],
+  app_name: ['tranquil-inlet-5198.herokuapp.com'],
   /**
    * Your New Relic license key.
    */
