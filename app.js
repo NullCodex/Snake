@@ -1,4 +1,4 @@
-require('newrelic');
+
 
 // Set up variables
 var app = require('express')();
@@ -17,4 +17,4 @@ app.use(cookieParser());
 
 var io = require('socket.io').listen(app.listen(port));
 require('./config')(app, io);
-require('./routes')(app, io;
+require('./routes')(app, io);

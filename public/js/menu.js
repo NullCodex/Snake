@@ -1,11 +1,11 @@
 var Menu = {
 
-    preload : function() {
+    preload: function() {
         // Load all the needed resources for the menu.
         game.load.image('menu', '../img/menu.png');
     },
 
-    create: function () {
+    create: function() {
 
         // Add menu screen.
         // It will act as a button to start the game.
@@ -13,7 +13,7 @@ var Menu = {
 
     },
 
-    startGame: function () {
+    startGame: function() {
 
         // Change the state to the actual game.
         this.state.start('Game');

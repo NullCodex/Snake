@@ -1,7 +1,6 @@
 var snake, apple, squareSize, score, speed,
     updateDelay, direction, new_direction,
-    addNew, cursors, scoreTextValue, speedTextValue,
-    textStyle_Key, textStyle_Value;
+    addNew, cursors, scoreTextValue, speedTextValue, textStyle_Key, textStyle_Value;
 
 var Game = {
 
@@ -33,7 +32,6 @@ var Game = {
         game.stage.backgroundColor = '#061f27';
 
         // Generate the initial snake stack. Our snake will be 10 elements long.
-        // Beginning at X=150 Y=150 and increasing the X on every iteration.
         for (var i = 0; i < 10; i++) {
             snake[i] = game.add.sprite(150 + i * squareSize, 150, 'snake'); // Parameters are (X coordinate, Y coordinate, image)
         }
@@ -41,7 +39,6 @@ var Game = {
 
         // Genereate the first apple.
         this.generateApple();
-
 
         // Add Text to top of game.
         textStyle_Key = {
@@ -64,10 +61,8 @@ var Game = {
 
     },
 
-
-
-
     update: function() {
+
         // Handle arrow key presses, while not allowing illegal direction changes that will kill the player.
 
         if (cursors.right.isDown && direction != 'left') {
@@ -79,7 +74,6 @@ var Game = {
         } else if (cursors.down.isDown && direction != 'up') {
             new_direction = 'down';
         }
-
 
         // A formula to calculate game speed based on the score.
         // The higher the score, the higher the game speed, with a maximum of 10;
@@ -132,33 +126,34 @@ var Game = {
 
 
             // Place the last cell in the front of the stack.
-            // Mark it the first cell.
+            // Mark it as the first cell.
 
             snake.push(lastCell);
             firstCell = lastCell;
 
+            // End of snake movement.
+
+
+
+            // Increase length of snake if an apple had been eaten.
+            // Create a block in the back of the snake with the old position of the previous last block (it has moved now along with the rest of the snake).
+            if (addNew) {
+                snake.unshift(game.add.sprite(oldLastCellx, oldLastCelly, 'snake'));
+                addNew = false;
+            }
+
+            // Check for apple collision.
+            this.appleCollision();
+
+            // Check for collision with self. Parameter is the head of the snake.
+            this.selfCollision(firstCell);
+
+            // Check with collision with wall. Parameter is the head of the snake.
+            this.wallCollision(firstCell);
         }
 
 
-        // Increase length of snake if an apple had been eaten.
-        // Create a block in the back of the snake with the old position of the previous last block
-        // (it has moved now along with the rest of the snake).
-
-        if (addNew) {
-            snake.unshift(game.add.sprite(oldLastCellx, oldLastCelly, 'snake'));
-            addNew = false;
-        }
-
-        // Check for apple collision.
-        this.appleCollision();
-
-        // Check for collision with self. Parameter is the head of the snake.
-        this.selfCollision(firstCell);
-
-        // Check with collision with wall. Parameter is the head of the snake.
-        this.wallCollision(firstCell);
     },
-
 
     generateApple: function() {
 
@@ -171,6 +166,59 @@ var Game = {
 
         // Add a new apple.
         apple = game.add.sprite(randomX, randomY, 'apple');
+    },
+
+    appleCollision: function() {
+
+        // Check if any part of the snake is overlapping the apple.
+        // This is needed if the apple spawns inside of the snake.
+        for (var i = 0; i < snake.length; i++) {
+            if (snake[i].x == apple.x && snake[i].y == apple.y) {
+
+                // Next time the snake moves, a new block will be added to its length.
+                addNew = true;
+
+                // Destroy the old apple.
+                apple.destroy();
+
+                // Make a new one.
+                this.generateApple();
+
+                // Increase score.
+                score++;
+
+                // Refresh scoreboard.
+                scoreTextValue.text = score.toString();
+
+            }
+        }
+
+    },
+
+    selfCollision: function(head) {
+
+        // Check if the head of the snake overlaps with any part of the snake.
+        for (var i = 0; i < snake.length - 1; i++) {
+            if (head.x == snake[i].x && head.y == snake[i].y) {
+
+                // If so, go to game over screen.
+                game.state.start('Game_Over');
+            }
+        }
+
+    },
+
+    wallCollision: function(head) {
+
+        // Check if the head of the snake is in the boundaries of the game field.
+
+        if (head.x >= 600 || head.x < 0 || head.y >= 450 || head.y < 0) {
+
+
+            // If it's not in, we've hit a wall. Go to game over screen.
+            game.state.start('Game_Over');
+        }
+
     }
 
 };
