@@ -1,5 +1,6 @@
 require('newrelic');
 
+// Set up variables
 var app = require('express')();
 var port = process.env.PORT || 8080;
 var express = require('express');
