@@ -10,12 +10,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 app.use(cookieParser());
 
-app.use('/public', express.static(path.join(__dirname, 'public')));
-
-app.get('/', function(req, res){
-
-  res.sendFile(path.join(__dirname, 'views', 'main.html'));
-});
+var io = require('socket.io').listen(app.listen(port));
+require('./config')(app, io);
+require('./routes')(app, io;
