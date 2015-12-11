@@ -8,11 +8,11 @@ exports.config = {
   /**
    * Array of application names.
    */
-  app_name: ['tranquil-inlet-5198'],
+  app_name: ['compete-snake'],
   /**
    * Your New Relic license key.
    */
-  license_key: 'ccd76cd5e6b8ca01262cbb702c9f1106e1808af5',
+  license_key: '63b270e8f446abce7c98490b9c2163063e41dd22',
   logging: {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing
